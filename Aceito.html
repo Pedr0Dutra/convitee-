@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Te busco</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;1,400;1,500&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+<style>
+  :root{--night:#1a1416;--wine:oklch(0.38 0.09 15);--cream:#f4eee6;--muted:#8a7d78;--gold:oklch(0.72 0.08 70)}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{
+    min-height:100vh;overflow:hidden;display:grid;place-items:center;padding:24px;
+    background:radial-gradient(ellipse at 50% 35%, #2e2125 0%, var(--night) 70%);
+    font-family:'Jost',sans-serif;color:var(--cream);text-align:center;
+  }
+  .petals{position:fixed;inset:0;pointer-events:none;overflow:hidden;z-index:0}
+  .petal{
+    position:absolute;top:-40px;border-radius:150% 0 150% 0;
+    animation:fall linear infinite, sway ease-in-out infinite alternate;
+    opacity:.9;
+  }
+  @keyframes fall{to{transform:translateY(calc(100vh + 80px)) rotate(var(--rot))}}
+  @keyframes sway{from{margin-left:calc(var(--sway) * -1)}to{margin-left:var(--sway)}}
+  .msg{position:relative;z-index:1;animation:in 1.6s cubic-bezier(.2,.7,.2,1) .3s both}
+  @keyframes in{from{opacity:0;transform:translateY(20px);filter:blur(6px)}to{opacity:1;transform:none;filter:none}}
+  .eyebrow{font-size:11px;letter-spacing:.34em;text-transform:uppercase;color:var(--gold);font-weight:300}
+  h1{font-family:'Cormorant Garamond',serif;font-weight:400;font-size:clamp(44px,9vw,84px);line-height:1.05;margin-top:24px}
+  h1 em{color:color-mix(in oklch,var(--gold) 80%,white)}
+  .moon{width:10px;height:10px;border-radius:50%;background:var(--gold);margin:36px auto;box-shadow:0 0 0 6px color-mix(in oklch,var(--gold) 18%,transparent)}
+  p{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:22px;color:#c9bcb6}
+  a{display:inline-block;margin-top:48px;font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:var(--muted);text-decoration:none;padding:14px}
+  a:hover{color:var(--cream)}
+</style>
+</head>
+<body>
+  <div class="petals" id="petals"></div>
+  <main class="msg">
+    <div class="eyebrow">Combinado</div>
+    <h1>Te busco<br><em>às 20h30.</em></h1>
+    <div class="moon"></div>
+    <p>Mal posso esperar.</p>
+    <a href="Convite.html">← voltar ao convite</a>
+  </main>
+<script>
+  const box = document.getElementById('petals');
+  const colors = ['#e8a3ad','#f2c4cb','#c9576a','#f7dde0','#b33b52'];
+  const n = innerWidth < 600 ? 28 : 45;
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const s = 10 + Math.random() * 16;
+    const fall = 7 + Math.random() * 8;
+    p.style.cssText = `
+      left:${Math.random()*100}vw;width:${s}px;height:${s*0.8}px;
+      background:linear-gradient(135deg, ${colors[i%colors.length]}, ${colors[(i+2)%colors.length]});
+      --rot:${(Math.random()>.5?1:-1)*(360+Math.random()*360)}deg;
+      --sway:${20+Math.random()*50}px;
+      animation-duration:${fall}s, ${2+Math.random()*2}s;
+      animation-delay:${-Math.random()*fall}s, 0s;
+      opacity:${.55+Math.random()*.45};
+    `;
+    box.appendChild(p);
+  }
+</script>
+</body>
+</html>
